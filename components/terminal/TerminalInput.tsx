@@ -18,11 +18,12 @@ export default function TerminalInput({
   const charHeight = 36
   setTimeout(() => {
     setIsCaretVisible(!isCaretVisible)
-  }, 500)
+  }, 100)
   return (
     <Box
       component="div"
       sx={{
+        zIndex: 99,
         position: 'relative',
         wordBreak: 'break-all',
         whiteSpace: 'break-spaces',
@@ -33,7 +34,7 @@ export default function TerminalInput({
         minHeight: '60px',
         padding: '12px',
         borderRadius: '5px',
-        backgroundColor: 'rgba(125,125,125,0.25)',
+        backgroundColor: 'rgba(255, 255, 255, 0.125)',
       }}
     >
       <Box
@@ -48,7 +49,7 @@ export default function TerminalInput({
             12,
         }}
       >
-        {true ? caret : ' '}
+        {isCaretVisible ? caret : ' '}
       </Box>
       {'>' + chars.join('')}
     </Box>

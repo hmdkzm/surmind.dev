@@ -2,10 +2,13 @@
 import Box from '@mui/material/Box'
 import { useEffect, useState } from 'react'
 import TerminalInput from './TerminalInput'
+import TerminalLog from './TerminalLog'
 
 export default function Terminal() {
   const [inputCharsArray, setInputCharsArray] = useState<string[]>([])
+  const [logs, setLogs] = useState<string[]>([])
   const [caretIndex, setCaretIndex] = useState(0)
+  //TODO-improve this section
   const getKey = (e: KeyboardEvent) => {
     const _inputCharsArray = inputCharsArray
     const { key } = e
@@ -27,6 +30,10 @@ export default function Terminal() {
       setCaretIndex(inputCharsArray.length)
     } else if (key === 'Delete') {
       _inputCharsArray.splice(caretIndex, 1)
+    } else if (key === 'Enter') {
+      setLogs([inputCharsArray.join(''), ...logs])
+      _inputCharsArray.splice(0)
+      setCaretIndex(0)
     }
     setInputCharsArray(_inputCharsArray)
     // console.log(e)
@@ -47,6 +54,7 @@ export default function Terminal() {
         alignItems: 'center',
       }}
     >
+      <TerminalLog logs={logs} />
       <TerminalInput
         chars={inputCharsArray}
         caretIndex={caretIndex}
