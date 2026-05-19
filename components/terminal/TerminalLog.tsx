@@ -1,11 +1,20 @@
+import { TerminalTheme } from '@/lib/store/terminalSlice'
 import Box from '@mui/material/Box'
 
-export default function TerminalLog({ logs }: { logs: string[] }) {
+export default function TerminalLog({
+  logs,
+  theme,
+}: {
+  logs: string[]
+  theme: TerminalTheme
+}) {
   return (
     <Box
       sx={{
         overflowY: 'auto',
-        backgroundColor: 'rgba(100, 250, 120, 0.5)',
+        color: theme.logTextColor,
+        backgroundColor: theme.logBackgroundColor,
+        backgroundImage: `url(${theme.logBackgroundImage})`,
         position: 'absolute',
         top: 0,
         left: '50%',
@@ -15,6 +24,9 @@ export default function TerminalLog({ logs }: { logs: string[] }) {
         padding: '10px',
         display: 'flex',
         flexDirection: 'column-reverse',
+        fontSize: theme.logFontSize,
+        whiteSpace: 'break-spaces',
+        wordBreak: 'break-all',
       }}
     >
       {logs.map((log, index) => (

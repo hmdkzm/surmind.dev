@@ -3,6 +3,8 @@ import Box from '@mui/material/Box'
 import { useEffect, useState } from 'react'
 import TerminalInput from './TerminalInput'
 import TerminalLog from './TerminalLog'
+import { useStore } from '@/provider/storeProvider'
+import { selectTerminal } from '@/lib/store/terminalSlice'
 
 export default function Terminal() {
   const [inputCharsArray, setInputCharsArray] = useState<string[]>([])
@@ -32,6 +34,9 @@ export default function Terminal() {
       _inputCharsArray.splice(caretIndex, 1)
     } else if (key === 'Enter') {
       setLogs([inputCharsArray.join(''), ...logs])
+      if (inputCharsArray.join('') === 'update') {
+        updateTheme()
+      }
       _inputCharsArray.splice(0)
       setCaretIndex(0)
     }
@@ -44,22 +49,34 @@ export default function Terminal() {
       document.removeEventListener('keydown', getKey)
     }
   })
+  const { theme } = useStore(selectTerminal)
+  const terminal = useStore(selectTerminal)
 
+  const updateTheme = () => {
+    terminal.setState({
+      theme: {
+        logBackgroundColor: 'black',
+        logTextColor: 'white',
+        logBackgroundImage: 'bg-hatch.svg',
+        logFontSize: '36px',
+      },
+    })
+  }
   return (
     <Box
       sx={{
         height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        // display: 'flex',
+        // justifyContent: 'center',
+        // alignItems: 'center',
       }}
     >
-      <TerminalLog logs={logs} />
       <TerminalInput
         chars={inputCharsArray}
         caretIndex={caretIndex}
-        caret="🕱"
+        theme={theme}
       />
+      <TerminalLog theme={theme} logs={logs} />
     </Box>
   )
 }
