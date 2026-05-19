@@ -1,14 +1,15 @@
 import { StateCreator } from 'zustand'
 
 export interface TerminalTheme {
+  [index: string]: string | undefined | boolean | number
   logTextColor?: string
   logBackgroundColor?: string
   logBackgroundImage?: string
-  logFontSize?: string
+  logFontSize?: number
   inputTextColor?: string
   inputBackgroundColor?: string
   inputBackgroundImage?: string
-  inputFontSize?: string
+  inputFontSize?: number
   inputPosition?: 'top' | 'center' | 'bottom'
   caretColor?: string
   caretIcon?: string
@@ -32,7 +33,12 @@ const initialState: TerminalState = {
     logTextColor: 'green',
     logBackgroundColor: 'rgba(50, 100, 80, 0.5)',
     logBackgroundImage: 'bg-hatch.svg',
-    logFontSize: '16px',
+    logFontSize: 16,
+    inputTextColor: 'white',
+    inputBackgroundColor: 'rgba(250,250,250,0.5)',
+    inputBackgroundImage: '',
+    inputFontSize: 36,
+    inputPosition: 'top',
     caretColor: 'white',
     caretBlink: false,
     caretBlinkSpeed: 600,

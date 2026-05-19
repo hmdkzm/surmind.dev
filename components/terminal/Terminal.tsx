@@ -5,6 +5,7 @@ import TerminalInput from './TerminalInput'
 import TerminalLog from './TerminalLog'
 import { useStore } from '@/provider/storeProvider'
 import { selectTerminal } from '@/lib/store/terminalSlice'
+import { parser } from '@/lib/terminal/parser'
 
 export default function Terminal() {
   const [inputCharsArray, setInputCharsArray] = useState<string[]>([])
@@ -33,10 +34,9 @@ export default function Terminal() {
     } else if (key === 'Delete') {
       _inputCharsArray.splice(caretIndex, 1)
     } else if (key === 'Enter') {
-      setLogs([inputCharsArray.join(''), ...logs])
-      if (inputCharsArray.join('') === 'update') {
-        updateTheme()
-      }
+      const res = parser(inputCharsArray.join(''), terminal)
+      if (res) setLogs([res, inputCharsArray.join(''), ...logs])
+      else setLogs([inputCharsArray.join(''), ...logs])
       _inputCharsArray.splice(0)
       setCaretIndex(0)
     }
@@ -51,17 +51,6 @@ export default function Terminal() {
   })
   const { theme } = useStore(selectTerminal)
   const terminal = useStore(selectTerminal)
-
-  const updateTheme = () => {
-    terminal.setState({
-      theme: {
-        logBackgroundColor: 'black',
-        logTextColor: 'white',
-        logBackgroundImage: 'bg-hatch.svg',
-        logFontSize: '36px',
-      },
-    })
-  }
   return (
     <Box
       sx={{

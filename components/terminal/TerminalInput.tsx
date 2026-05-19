@@ -38,7 +38,7 @@ export default function TerminalInput({
         position: 'relative',
         top: calculateInputPosition(),
         left: '50%',
-        transform: 'translate3D(-50%, -50%, 0)',
+        transform: 'translate3D(-50%, 0, 0)',
         wordBreak: 'break-all',
         whiteSpace: 'break-spaces',
         fontFamily: 'monospace',
