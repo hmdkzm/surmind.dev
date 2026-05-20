@@ -10,10 +10,13 @@ export const parser = (prompt: string, terminal: TerminalSlice['terminal']) => {
       terminal.setState({
         theme: { ...terminal.theme, [commands.set[property]]: value },
       })
+    } else {
+      return ['type tr help', 'Invalid Params']
     }
     return
   }
   if (command === 'help') {
     return "there's no help for now"
   }
+  return 'Not Found'
 }
