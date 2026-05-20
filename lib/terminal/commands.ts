@@ -13,5 +13,6 @@ export const commands: { set: { [index: string]: string } } = {
     ci: 'caretIcon',
     cb: 'caretBlink',
     cbs: 'caretBlinkSpeed',
+    prp: 'prepend',
   },
 }

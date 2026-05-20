@@ -15,6 +15,7 @@ export interface TerminalTheme {
   caretIcon?: string
   caretBlink?: boolean
   caretBlinkSpeed?: number
+  prepend?: string
 }
 interface TerminalState {
   theme: TerminalTheme
@@ -43,6 +44,7 @@ const initialState: TerminalState = {
     caretBlink: false,
     caretBlinkSpeed: 600,
     caretIcon: '🕱',
+    prepend: '>',
   },
 }
 

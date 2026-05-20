@@ -74,7 +74,7 @@ export default function TerminalInput({
       >
         {!theme.caretBlink || isCaretVisible ? theme.caretIcon : ' '}
       </Box>
-      {'>' + chars.join('')}
+      {theme.prepend + chars.join('')}
     </Box>
   )
 }
