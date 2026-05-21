@@ -3,9 +3,10 @@ import { createStore as create } from 'zustand'
 import { ToastSlice, createToastSlice } from './toastSlice'
 import { AuthSlice, createAuthSlice } from './authSlice'
 import { createTerminalSlice, TerminalSlice } from './terminalSlice'
+import { createMachineSlice, MachineSlice } from './machine'
 
 // Combine the types
-export type Store = AuthSlice & ToastSlice & TerminalSlice
+export type Store = AuthSlice & ToastSlice & TerminalSlice & MachineSlice
 
 export const createStore = (initprops?: Partial<Store>) => {
   return create<Store>()((...a) => ({
@@ -23,6 +24,10 @@ export const createStore = (initprops?: Partial<Store>) => {
     terminal: {
       ...createTerminalSlice(...a).terminal,
       ...initprops?.terminal,
+    },
+    machine: {
+      ...createMachineSlice(...a).machine,
+      ...initprops?.machine,
     },
   }))
 }
