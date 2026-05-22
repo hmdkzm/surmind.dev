@@ -14,10 +14,14 @@ export default function TerminalInput({
 }) {
   const [isCaretVisible, setIsCaretVisible] = useState(true)
   const caretTopOfset = 10
-  const caretLeftOfset = 38
-  const charWidth = 21.65
-  const charHeight = 36
-  const charsNumber = 35
+  const inputPadding = 12
+  const inputWidth = 783
+  const fontSize = parseInt(String(theme.inputFontSize || '36'))
+  const charWidth = fontSize * 0.6 // Monospace characters are typically 0.6 times the font size in width
+  const lineHeight = 36
+  const charHeight = lineHeight
+  const prependWidth = (theme.prepend?.length || 0) * charWidth
+  const rowCharsNumber = Math.floor((inputWidth - inputPadding * 2) / charWidth)
   if (theme.caretBlink) {
     setTimeout(() => {
       setIsCaretVisible(!isCaretVisible)
@@ -43,11 +47,11 @@ export default function TerminalInput({
         whiteSpace: 'break-spaces',
         fontFamily: 'monospace',
         fontSize: theme.inputFontSize || '36px',
-        lineHeight: '36px',
+        lineHeight: `${lineHeight}px`,
         color: theme.inputTextColor,
-        width: '783px',
+        width: `${inputWidth}px`,
         minHeight: '60px',
-        padding: '12px',
+        padding: `${inputPadding}px`,
         borderRadius: '5px',
         backgroundColor:
           theme.inputBackgroundColor || 'rgba(255, 255, 255, 0.125)',
@@ -61,15 +65,16 @@ export default function TerminalInput({
           color: theme.caretColor,
           position: 'absolute',
           top:
-            caretTopOfset +
-            charHeight * Math.floor(caretIndex / charsNumber) +
+            inputPadding +
+            charHeight *
+              Math.floor(
+                (caretIndex + (theme.prepend?.length || 0)) / rowCharsNumber,
+              ) +
             2,
           left:
-            caretLeftOfset +
+            inputPadding +
             charWidth *
-              (caretIndex -
-                Math.floor(caretIndex / charsNumber) * charsNumber) -
-            12,
+              ((caretIndex + (theme.prepend?.length || 0)) % rowCharsNumber),
         }}
       >
         {!theme.caretBlink || isCaretVisible ? theme.caretIcon : ' '}
