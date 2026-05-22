@@ -1,26 +1,39 @@
 import { TerminalSlice } from '../store/terminalSlice'
 import { commands } from './commands'
 
-export const parser = (prompt: string, terminal: TerminalSlice['terminal']) => {
-  const [prog, command, ...args] = prompt.split(' ')
-  if (prog === 'tr') {
-    if (command === 'set') {
-      const [property, value] = args
+type CommandHandler = (
+  args: string[],
+  terminal: TerminalSlice['terminal'],
+) => string[] | string | void
+
+const COMMAND_MAP: Record<string, CommandHandler> = {
+  tr: (args, terminal) => {
+    const [subCommand, property, value] = args
+    if (subCommand === 'set') {
       if (commands.set[property]) {
         terminal.setState({
           theme: { ...terminal.theme, [commands.set[property]]: value },
         })
-      } else {
-        return ['type tr help', 'Invalid Params']
+        return
       }
-      return
+      return ['type tr help', 'Invalid Params']
     }
-  }
-  if (prog === 'help') {
+  },
+  help: () => {
     return "there's no help for now"
-  }
-  if (prog === 'clock') {
+  },
+  clock: () => {
     return [new Date().toDateString() + ' ' + new Date().toLocaleTimeString()]
+  },
+}
+
+export const parser = (prompt: string, terminal: TerminalSlice['terminal']) => {
+  const [prog, ...args] = prompt.trim().split(/\s+/)
+
+  const handler = COMMAND_MAP[prog]
+  if (handler) {
+    return handler(args, terminal)
   }
+
   return ['Not Found']
 }
