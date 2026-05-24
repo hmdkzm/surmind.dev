@@ -25,6 +25,7 @@ export default function TerminalLog({
         display: 'flex',
         flexDirection: 'column-reverse',
         fontSize: theme.logFontSize,
+        fontFamily: 'monospace',
         whiteSpace: 'break-spaces',
         wordBreak: 'break-all',
       }}
