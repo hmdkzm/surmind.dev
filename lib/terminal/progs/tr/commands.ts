@@ -1,4 +1,6 @@
-export const commands: { set: { [index: string]: string } } = {
+export const commands: {
+  [index: string]: { [index: string]: string }
+} = {
   set: {
     ltc: 'logTextColor',
     lbc: 'logBackgroundColor',
