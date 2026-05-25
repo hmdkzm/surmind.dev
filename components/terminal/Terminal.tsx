@@ -11,6 +11,8 @@ export default function Terminal() {
   const [inputCharsArray, setInputCharsArray] = useState<string[]>([])
   const [logs, setLogs] = useState<string[]>([])
   const [caretIndex, setCaretIndex] = useState(0)
+  const [history, setHistory] = useState<string[]>([])
+  const [historyIndex, setHistoryIndex] = useState(-1)
   //TODO-improve this section
   const handlePaste = (e: ClipboardEvent) => {
     const pastedText = e.clipboardData?.getData('text') || ''
@@ -43,11 +45,42 @@ export default function Terminal() {
       setCaretIndex(inputCharsArray.length)
     } else if (key === 'Delete') {
       _inputCharsArray.splice(caretIndex, 1)
+    } else if (key === 'ArrowUp') {
+      const newIndex = historyIndex + 1
+      if (newIndex < history.length) {
+        const historicalCmd = history[history.length - 1 - newIndex]
+        _inputCharsArray.splice(
+          0,
+          _inputCharsArray.length,
+          ...historicalCmd.split(''),
+        )
+        setHistoryIndex(newIndex)
+        setCaretIndex(historicalCmd.length)
+      }
+    } else if (key === 'ArrowDown') {
+      const newIndex = historyIndex - 1
+      if (newIndex >= 0) {
+        const historicalCmd = history[history.length - 1 - newIndex]
+        _inputCharsArray.splice(
+          0,
+          _inputCharsArray.length,
+          ...historicalCmd.split(''),
+        )
+        setHistoryIndex(newIndex)
+        setCaretIndex(historicalCmd.length)
+      } else if (newIndex === -1) {
+        _inputCharsArray.splice(0)
+        setHistoryIndex(-1)
+        setCaretIndex(0)
+      }
     } else if (key === 'Enter') {
-      const textWithPrepend = theme.prepend + inputCharsArray.join('')
-      const res = parser(inputCharsArray.join(''), terminal)
+      const command = inputCharsArray.join('')
+      const textWithPrepend = theme.prepend + command
+      const res = parser(command, terminal)
       if (res) setLogs([...logs, textWithPrepend, ...res])
       else setLogs([...logs, textWithPrepend])
+      if (command.trim()) setHistory([...history, command])
+      setHistoryIndex(-1)
       _inputCharsArray.splice(0)
       setCaretIndex(0)
     }
