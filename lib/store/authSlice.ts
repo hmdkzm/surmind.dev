@@ -1,8 +1,9 @@
 import { StateCreator } from 'zustand'
-import { User } from '../types/user-types'
+// import { User } from '../types/user-types'
 
 interface AuthState {
-  user: User | undefined
+  // user: User | undefined
+  user: undefined
 }
 
 interface AuthActions {
