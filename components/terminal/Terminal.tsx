@@ -12,9 +12,19 @@ export default function Terminal() {
   const [logs, setLogs] = useState<string[]>([])
   const [caretIndex, setCaretIndex] = useState(0)
   //TODO-improve this section
+  const handlePaste = (e: ClipboardEvent) => {
+    const pastedText = e.clipboardData?.getData('text') || ''
+    if (pastedText) {
+      const _inputCharsArray = [...inputCharsArray]
+      _inputCharsArray.splice(caretIndex, 0, ...pastedText.split(''))
+      setInputCharsArray(_inputCharsArray)
+      setCaretIndex(caretIndex + pastedText.length)
+    }
+  }
   const getKey = (e: KeyboardEvent) => {
-    const _inputCharsArray = inputCharsArray
+    const _inputCharsArray = [...inputCharsArray]
     const { key } = e
+    if (e.ctrlKey || e.metaKey) return
     if (!(key.length > 1)) {
       setCaretIndex(caretIndex + 1)
       _inputCharsArray.splice(caretIndex, 0, key)
@@ -46,8 +56,10 @@ export default function Terminal() {
   }
   useEffect(() => {
     document.addEventListener('keydown', getKey)
+    document.addEventListener('paste', handlePaste)
     return () => {
       document.removeEventListener('keydown', getKey)
+      document.removeEventListener('paste', handlePaste)
     }
   })
   const { theme } = useStore(selectTerminal)

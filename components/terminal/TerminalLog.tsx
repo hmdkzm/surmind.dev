@@ -14,6 +14,7 @@ export default function TerminalLog({
         overflowY: 'auto',
         color: theme.logTextColor,
         backgroundImage: `url(${theme.logBackgroundImage})`,
+        backgroundSize: 'cover',
         // position: 'absolute',
         // top: 0,
         // left: '50%',
