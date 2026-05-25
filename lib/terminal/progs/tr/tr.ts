@@ -20,14 +20,22 @@ export const tr = (args: string[], terminal: TerminalSlice['terminal']) => {
     return ['theme set']
   }
   if (subCommand === 'help') {
-    const commandsList = Object.keys(commands)
-      .map((c) => [
-        `${c}:`,
-        ...Object.keys(commands[c]).map((d) => `    ${d}: ${commands[c][d]}`),
-      ])
-      .flat(1)
-    console.log(commandsList.flat(1))
-    return [...commandsList, 'theme: ', ...Object.keys(theme)]
+    const helpOutput = [
+      'Usage: tr [command] [property] [value]',
+      '',
+      'Commands:',
+      '  set <prop> <val> - Set a specific theme property',
+      '  theme <name>     - Apply a predefined theme',
+      '',
+      'Properties (for set):',
+      ...Object.keys(commands.set).map(
+        (k) => `  ${k.padEnd(4)} -> ${commands.set[k]}`,
+      ),
+      '',
+      'Available Themes:',
+      `  •${Object.keys(theme).join(' •')}`,
+    ]
+    return helpOutput
   }
   return ['type tr help', 'Invalid Params']
 }
