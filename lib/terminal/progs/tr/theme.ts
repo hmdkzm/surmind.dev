@@ -27,7 +27,7 @@ export const theme: { [index: string]: Partial<TerminalTheme> } = {
     inputBackgroundColor: 'rgba(250,250,250,0.5)',
     inputTextColor: 'white',
     logBackgroundColor: 'rgba(50, 100, 80, 0.5)',
-    logTextColor: 'green',
+    logTextColor: '#00a700',
     caretColor: 'white',
   },
   cyberpunk: {
