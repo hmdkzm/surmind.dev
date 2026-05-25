@@ -39,7 +39,7 @@ export default function TerminalInput({
       component="div"
       sx={{
         zIndex: 99,
-        position: 'relative',
+        position: 'absolute',
         top: calculateInputPosition(),
         left: '50%',
         transform: 'translate3D(-50%, 0, 0)',

@@ -36,8 +36,8 @@ export default function Terminal() {
     } else if (key === 'Enter') {
       const textWithPrepend = theme.prepend + inputCharsArray.join('')
       const res = parser(inputCharsArray.join(''), terminal)
-      if (res) setLogs([...res, textWithPrepend, ...logs])
-      else setLogs([textWithPrepend, ...logs])
+      if (res) setLogs([...logs, textWithPrepend, ...res])
+      else setLogs([...logs, textWithPrepend])
       _inputCharsArray.splice(0)
       setCaretIndex(0)
     }
@@ -56,6 +56,7 @@ export default function Terminal() {
     <Box
       sx={{
         height: '100vh',
+        position: 'relative',
         // display: 'flex',
         // justifyContent: 'center',
         // alignItems: 'center',

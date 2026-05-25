@@ -24,7 +24,7 @@ export const parser = (prompt: string, terminal: TerminalSlice['terminal']) => {
 
   const handler = COMMAND_MAP[prog]
   if (handler) {
-    const res: string[] = handler(args, terminal).reverse()
+    const res: string[] = handler(args, terminal)
     return res
   }
 
