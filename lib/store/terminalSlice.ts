@@ -31,7 +31,7 @@ export interface TerminalSlice {
 
 const initialState: TerminalState = {
   theme: {
-    logTextColor: 'green',
+    logTextColor: '#00b700',
     logBackgroundColor: 'rgba(50, 100, 80, 0.5)',
     logBackgroundImage: 'bg-hatch.svg',
     logFontSize: 16,
