@@ -19,6 +19,21 @@ export const tr = (args: string[], terminal: TerminalSlice['terminal']) => {
     })
     return ['theme set']
   }
+  if (subCommand === 'diag') {
+    if (property === 'on') {
+      terminal.setState({
+        diag: true,
+      })
+      return ['diag activated']
+    }
+    if (property === 'off') {
+      terminal.setState({
+        diag: false,
+      })
+      return ['diag deactivated']
+    }
+    return ['type tr help', 'Invalid Params']
+  }
   if (subCommand === 'help') {
     const helpOutput = [
       'Usage: tr [command] [property] [value]',
@@ -26,6 +41,7 @@ export const tr = (args: string[], terminal: TerminalSlice['terminal']) => {
       'Commands:',
       '  set <prop> <val> - Set a specific theme property',
       '  theme <name>     - Apply a predefined theme',
+      '  diag <on|off>    - Toggle diagnostic modal',
       '',
       'Properties (for set):',
       ...Object.keys(commands.set).map(

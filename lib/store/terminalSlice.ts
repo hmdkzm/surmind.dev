@@ -19,6 +19,7 @@ export interface TerminalTheme {
 }
 interface TerminalState {
   theme: TerminalTheme
+  diag: boolean
 }
 
 interface TerminalActions {
@@ -28,7 +29,7 @@ interface TerminalActions {
 export interface TerminalSlice {
   terminal: TerminalState & TerminalActions
 }
-
+//TODO-check nestet state reactivity issue
 const initialState: TerminalState = {
   theme: {
     logTextColor: '#00b700',
@@ -46,6 +47,7 @@ const initialState: TerminalState = {
     caretIcon: '🕱',
     prepend: '>',
   },
+  diag: false,
 }
 
 export const createTerminalSlice: StateCreator<TerminalSlice> = (set) => ({

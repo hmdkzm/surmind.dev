@@ -1,6 +1,10 @@
 import { StateCreator } from 'zustand'
-
-interface MachineState {}
+type SystemState = 'idle' | 'run' | 'error'
+type Command = string
+interface MachineState {
+  state: SystemState
+  activeCommand: Command
+}
 
 interface MachineActions {
   setState: (props: Partial<MachineState>) => void
@@ -10,7 +14,10 @@ export interface MachineSlice {
   machine: MachineState & MachineActions
 }
 
-const initialState: MachineState = {}
+const initialState: MachineState = {
+  state: 'idle',
+  activeCommand: '',
+}
 
 export const createMachineSlice: StateCreator<MachineSlice> = (set) => ({
   machine: {
@@ -26,3 +33,5 @@ export const createMachineSlice: StateCreator<MachineSlice> = (set) => ({
     },
   },
 })
+
+export const selectMachine = (state: MachineSlice) => state.machine

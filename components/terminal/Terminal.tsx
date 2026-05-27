@@ -6,6 +6,7 @@ import TerminalLog from './TerminalLog'
 import { useStore } from '@/provider/storeProvider'
 import { selectTerminal } from '@/lib/store/terminalSlice'
 import { parser } from '@/lib/terminal/parser'
+import DiagModal from '../diag/DiagModal'
 
 export default function Terminal() {
   const [logs, setLogs] = useState<string[]>([])
@@ -16,7 +17,7 @@ export default function Terminal() {
     else setLogs([...logs, textWithPrepend])
   }
   useEffect(() => {}, [logs])
-  const { theme } = useStore(selectTerminal)
+  const { theme, diag } = useStore(selectTerminal)
   const terminal = useStore(selectTerminal)
   return (
     <Box
@@ -29,6 +30,7 @@ export default function Terminal() {
         onEnter={(inputQuery: string) => handleInputQuery(inputQuery)}
       />
       <TerminalLog theme={theme} logs={logs} />
+      {diag && <DiagModal />}
     </Box>
   )
 }
