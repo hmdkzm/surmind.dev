@@ -3,7 +3,7 @@ import { createStore as create } from 'zustand'
 import { ToastSlice, createToastSlice } from './toastSlice'
 import { AuthSlice, createAuthSlice } from './authSlice'
 import { createTerminalSlice, TerminalSlice } from './terminalSlice'
-import { createMachineSlice, MachineSlice } from './machine'
+import { createMachineSlice, MachineSlice } from './machineSlice'
 
 // Combine the types
 export type Store = AuthSlice & ToastSlice & TerminalSlice & MachineSlice
