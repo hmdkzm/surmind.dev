@@ -28,6 +28,11 @@ export default function TerminalInput({
     }
   }
   const getKey = (e: KeyboardEvent) => {
+    if (e.ctrlKey && e.key === '/') {
+      e.preventDefault()
+      handleFocus()
+      return
+    }
     if (!isInputFocused) return
     const _inputCharsArray = [...inputCharsArray]
     const { key } = e
