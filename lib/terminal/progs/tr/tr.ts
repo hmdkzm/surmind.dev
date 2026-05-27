@@ -22,12 +22,14 @@ export const tr = (args: string[], terminal: TerminalSlice['terminal']) => {
   if (subCommand === 'diag') {
     if (property === 'on') {
       terminal.setState({
+        theme: { ...terminal.theme },
         diag: true,
       })
       return ['diag activated']
     }
     if (property === 'off') {
       terminal.setState({
+        theme: { ...terminal.theme },
         diag: false,
       })
       return ['diag deactivated']
