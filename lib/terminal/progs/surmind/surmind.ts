@@ -1,10 +1,11 @@
-import { links } from './linksText'
-import { resume } from './resume'
+import { TerminalLine } from '../../types'
+import { surmindLinksBlock } from './linksText'
+import { surmindTerminalResume } from './resume'
 
 export const surmind = (args: string[]) => {
   const [subCommand, property, value] = args
-  const commands: { [index: string]: () => string[] } = {
-    chat: () => ['chatting dala la'],
+  const commands: { [index: string]: () => string[] | TerminalLine[] } = {
+    chat: () => ['Well... This is not ready yet. Please wait for a moment :)'],
     help: () => [
       '    chat: start chat with seurmind. (Not Yet)',
       '    about: something about surmind',
@@ -18,8 +19,8 @@ export const surmind = (args: string[]) => {
       'Surmind is salvation',
       'Join surmind, surmind will join you',
     ],
-    links: () => links,
-    resume: () => resume.split('\n'),
+    links: () => surmindLinksBlock,
+    resume: () => surmindTerminalResume,
   }
   if (!commands[subCommand]) return ['type surmind help', 'Invalid Params']
   else return commands[subCommand]()
