@@ -22,6 +22,13 @@ Domain: surmind.dev
  
 > CORE EXPERIENCE
  
+Founder & Creative Developer @ Surmind (Self-Employed Startup)
+January 2023 - Present
+    * Establishing an independent creative-tech studio focusing on web 
+      applications, digital art, and indie game prototypes.
+    * Engineering the primary web platform using modern frontend stacks, 
+      focusing on interactive UI experiences.
+
 Front-End Developer @ IntelArt
 April 2024 - January 2026
     * Engineered highly responsive IoT dashboards for device monitoring 
