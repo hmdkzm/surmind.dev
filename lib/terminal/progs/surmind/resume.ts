@@ -1,4 +1,11 @@
-export const resume = `======================================================================
+export const resume = `
+   _____ _    _ _____  __  __ _____ _   _ _____  
+  / ____| |  | |  __ \\|  \\/  |_   _| \\ | |  __ \\ 
+ | (___ | |  | | |__) | \\  / | | | |  \\| | |  | |
+  \\___ \\| |  | |  _  /| |\\/| | | | | . \` | |  | |
+  ____) | |__| | | \\ \\| |  | |_| |_| |\\  | |__| |
+ |_____/ \\____/|_|  \\_\\_|  |_|_____|_| \\_|_____/ 
+======================================================================
 SURMIND | Hamed Kazemi - Mid/Senior Front-End Developer
 "The only limitation is our imagination"
 ======================================================================
@@ -15,7 +22,7 @@ Domain: surmind.dev
  
 > TECHNICAL SKILLS
     - Frameworks:     React.js, Next.js, Vue.js, Nuxt.js, Laravel
-    - State & Data:   Redux, Pinia, Vuex, RESTful APIs, GraphQL, Apollo
+    - State & Data:   Redux, zustand, Pinia, Vuex, RESTful APIs, GraphQL, Apollo
     - Frontend Core:  TypeScript, JavaScript, HTML5, CSS3, SCSS
     - Libs & Visuals: GSAP, Handsontable, ag-grid, Chart.js, DHTMLX
     - Workflow/Eng:   Git Flow, Agile/Scrum/Kanban, OOP, Design Patterns
