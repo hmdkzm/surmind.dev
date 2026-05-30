@@ -1,11 +1,12 @@
 import { TerminalTheme } from '@/lib/store/terminalSlice'
+import { TerminalLine } from '@/lib/terminal/types'
 import Box from '@mui/material/Box'
 
 export default function TerminalLog({
   logs,
   theme,
 }: {
-  logs: string[]
+  logs: (string | TerminalLine)[]
   theme: TerminalTheme
 }) {
   return (
@@ -41,9 +42,58 @@ export default function TerminalLog({
         }}
       ></Box>
       <Box sx={{ zIndex: '99' }}>
-        {logs.map((log, index) => (
-          <Box key={index}>{log}</Box>
-        ))}
+        {logs.map((log, index) => {
+          if (typeof log === 'string') {
+            return (
+              <Box
+                key={index}
+                sx={{
+                  whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-all',
+                }}
+              >
+                {log}
+              </Box>
+            )
+          } else {
+            return (
+              <Box
+                key={index}
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                }}
+              >
+                {log.map((segment, segIndex) => (
+                  <Box
+                    key={segIndex}
+                    sx={{
+                      color: segment.color || theme.logTextColor,
+                      fontSize: segment.fontSize
+                        ? segment.fontSize === 'small'
+                          ? '0.8em'
+                          : segment.fontSize === 'large'
+                            ? '1.2em'
+                            : theme.logFontSize
+                        : theme.logFontSize,
+                      fontWeight: segment.bold ? 'bold' : 'normal',
+                      fontStyle: segment.italic ? 'italic' : 'normal',
+                      textDecoration: segment.underline ? 'underline' : 'none',
+                      cursor: segment.href ? 'pointer' : 'default',
+                    }}
+                    onClick={() => {
+                      if (segment.href) {
+                        window.open(segment.href, '_blank')
+                      }
+                    }}
+                  >
+                    {segment.text}
+                  </Box>
+                ))}
+              </Box>
+            )
+          }
+        })}
       </Box>
     </Box>
   )

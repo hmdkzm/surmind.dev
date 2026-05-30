@@ -7,9 +7,10 @@ import { useStore } from '@/provider/storeProvider'
 import { selectTerminal } from '@/lib/store/terminalSlice'
 import { parser } from '@/lib/terminal/parser'
 import DiagModal from '../diag/DiagModal'
+import { TerminalLine } from '@/lib/terminal/types'
 
 export default function Terminal() {
-  const [logs, setLogs] = useState<string[]>([])
+  const [logs, setLogs] = useState<(string | TerminalLine)[]>([])
   const handleInputQuery = (inputQuery: string) => {
     const textWithPrepend = theme.prepend + inputQuery
     const res = parser(inputQuery, terminal)

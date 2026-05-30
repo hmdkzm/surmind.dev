@@ -4,11 +4,12 @@ import { clock } from './progs/clock/clock'
 import { ls } from './progs/ls/ls'
 import { surmind } from './progs/surmind/surmind'
 import { tr } from './progs/tr/tr'
+import { TerminalLine } from './types'
 
 type CommandHandler = (
   args: string[],
   terminal: TerminalSlice['terminal'],
-) => string[]
+) => string[] | TerminalLine[]
 
 const COMMAND_MAP: Record<string, CommandHandler> = {
   tr: tr,
@@ -44,7 +45,7 @@ export const parser = (prompt: string, terminal: TerminalSlice['terminal']) => {
 
   const handler = COMMAND_MAP[prog]
   if (handler) {
-    const res: string[] = handler(args, terminal)
+    const res = handler(args, terminal)
     return res
   }
 
