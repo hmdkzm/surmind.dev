@@ -1,3 +1,4 @@
+import { MachineSlice } from '../store/machineSlice'
 import { TerminalSlice } from '../store/terminalSlice'
 import { clock } from './progs/clock/clock'
 import { help } from './progs/help/help'
@@ -6,9 +7,10 @@ import { surmind } from './progs/surmind/surmind'
 import { tr } from './progs/tr/tr'
 import { TerminalLine } from './types'
 
-type CommandHandler = (
+export type CommandHandler = (
   args: string[],
   terminal: TerminalSlice['terminal'],
+  machine: MachineSlice['machine'],
 ) => string[] | TerminalLine[]
 
 const COMMAND_MAP: Record<string, CommandHandler> = {
@@ -19,12 +21,24 @@ const COMMAND_MAP: Record<string, CommandHandler> = {
   surmind: surmind,
 }
 
-export const parser = (prompt: string, terminal: TerminalSlice['terminal']) => {
+export const parser = (
+  prompt: string,
+  terminal: TerminalSlice['terminal'],
+  machine: MachineSlice['machine'],
+) => {
+  const { activeCommand, state } = machine
+  if (state === 'run') {
+    const handler = COMMAND_MAP[activeCommand]
+    if (handler) {
+      const args = prompt.trim().split(/\s+/)
+      const res = handler(args, terminal, machine)
+      return res
+    }
+  }
   const [prog, ...args] = prompt.trim().split(/\s+/)
-
   const handler = COMMAND_MAP[prog]
   if (handler) {
-    const res = handler(args, terminal)
+    const res = handler(args, terminal, machine)
     return res
   }
 
