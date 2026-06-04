@@ -5,6 +5,11 @@ export type TextColor =
   | 'pink'
   | 'yellow'
   | 'gray'
+  | 'black'
+  | 'white'
+  | 'red'
+  | 'blue'
+  | 'magenta'
 export type FontSize = 'small' | 'normal' | 'large'
 
 export interface TerminalSegment {

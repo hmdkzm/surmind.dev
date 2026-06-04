@@ -2,6 +2,7 @@ import { TerminalTheme } from '@/lib/store/terminalSlice'
 
 export const theme: { [index: string]: Partial<TerminalTheme> } = {
   blackice: {
+    name: 'blackice',
     inputBackgroundColor: 'rgba(0,0,0,0.35)',
     inputTextColor: 'black',
     logBackgroundImage: '',
@@ -10,6 +11,7 @@ export const theme: { [index: string]: Partial<TerminalTheme> } = {
     caretColor: 'black',
   },
   bloody: {
+    name: 'bloody',
     inputBackgroundColor: 'rgba(255, 0, 0, 0.5)',
     inputTextColor: 'rgb(255, 255, 255)',
     logBackgroundColor: 'rgba(255, 255, 255, 0.8)',
@@ -17,6 +19,7 @@ export const theme: { [index: string]: Partial<TerminalTheme> } = {
     caretColor: 'white',
   },
   bloodyhell: {
+    name: 'bloodyhell',
     inputBackgroundColor: 'rgba(120,10,10,0.5)',
     inputTextColor: 'rgb(182, 182, 182)',
     logBackgroundColor: 'rgba(25,0,0,0.8)',
@@ -24,6 +27,7 @@ export const theme: { [index: string]: Partial<TerminalTheme> } = {
     caretColor: 'red',
   },
   matcha: {
+    name: 'matcha',
     inputBackgroundColor: 'rgba(250,250,250,0.5)',
     inputTextColor: 'white',
     logBackgroundColor: 'rgba(50, 100, 80, 0.5)',
@@ -31,6 +35,7 @@ export const theme: { [index: string]: Partial<TerminalTheme> } = {
     caretColor: 'white',
   },
   cyberpunk: {
+    name: 'cyberpunk',
     inputBackgroundColor: 'rgba(255, 0, 255, 0.2)',
     inputTextColor: '#00ff00',
     logBackgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -38,6 +43,7 @@ export const theme: { [index: string]: Partial<TerminalTheme> } = {
     caretColor: '#0ff',
   },
   ocean: {
+    name: 'ocean',
     inputBackgroundColor: 'rgba(0, 105, 148, 0.5)',
     inputTextColor: '#e0ffff',
     logBackgroundColor: 'rgba(0, 43, 54, 0.8)',
@@ -45,6 +51,7 @@ export const theme: { [index: string]: Partial<TerminalTheme> } = {
     caretColor: '#e0ffff',
   },
   matrix: {
+    name: 'matrix',
     inputBackgroundColor: 'black',
     inputTextColor: '#00FF41',
     logBackgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -52,6 +59,7 @@ export const theme: { [index: string]: Partial<TerminalTheme> } = {
     caretColor: '#00FF41',
   },
   dracula: {
+    name: 'dracula',
     inputBackgroundColor: '#44475a',
     inputTextColor: '#f8f8f2',
     logBackgroundColor: 'rgba(40, 42, 54, 0.8)',
@@ -59,6 +67,7 @@ export const theme: { [index: string]: Partial<TerminalTheme> } = {
     caretColor: '#f8f8f2',
   },
   sunset: {
+    name: 'sunset',
     inputBackgroundColor: 'rgba(255, 83, 73, 0.4)',
     inputTextColor: '#ffd700',
     logBackgroundColor: 'rgba(45, 20, 44, 0.8)',

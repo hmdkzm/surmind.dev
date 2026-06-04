@@ -2,6 +2,7 @@ import { StateCreator } from 'zustand'
 
 export interface TerminalTheme {
   [index: string]: string | undefined | boolean | number
+  name?: string
   logTextColor?: string
   logBackgroundColor?: string
   logBackgroundImage?: string
@@ -32,6 +33,7 @@ export interface TerminalSlice {
 //TODO-check nestet state reactivity issue
 const initialState: TerminalState = {
   theme: {
+    name: 'default',
     logTextColor: '#00b700',
     logBackgroundColor: 'rgba(50, 100, 80, 0.5)',
     logBackgroundImage: 'bg-hatch.svg',
