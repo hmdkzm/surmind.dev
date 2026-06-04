@@ -12,7 +12,7 @@ export const surmind: CommandHandler = (args: string[], terminal, machine) => {
   const commands: { [index: string]: () => string[] | TerminalLine[] } = {
     chat: () => ['Well... This is not ready yet. Please wait for a moment :)'],
     help: () => [
-      '    chat: start chat with seurmind. (Not Yet)',
+      '    chat: start chat with surmind. (Not Yet)',
       '    about: something about surmind',
       '    links: show surmind links and socials',
       '    resume: show SURMIND resume',

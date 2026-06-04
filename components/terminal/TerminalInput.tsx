@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import { useState, useEffect, useRef } from 'react'
 import { useStore } from '@/provider/storeProvider'
 import Caret from './Caret'
+import { selectMachine } from '@/lib/store/machineSlice'
 
 export default function TerminalInput({
   onEnter,
@@ -13,11 +14,16 @@ export default function TerminalInput({
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const { theme } = useStore(selectTerminal)
+  const machine = useStore(selectMachine)
   const [inputCharsArray, setInputCharsArray] = useState<string[]>([])
   const [caretIndex, setCaretIndex] = useState(0)
   const [isInputFocused, setIsInputFocused] = useState(false)
   const [history, setHistory] = useState<string[]>([])
   const [historyIndex, setHistoryIndex] = useState(-1)
+  const prompt =
+    (theme.prepend || '') +
+    (machine.activeCommand.length > 0 ? `${machine.activeCommand}$` : '')
+  const promptLength = prompt.length
   const handlePaste = (e: ClipboardEvent) => {
     const pastedText = e.clipboardData?.getData('text') || ''
     if (pastedText) {
@@ -95,6 +101,10 @@ export default function TerminalInput({
     // console.log(e)
   }
   useEffect(() => {
+    handleFocus()
+  }, [])
+
+  useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
@@ -164,7 +174,10 @@ export default function TerminalInput({
         color: theme.inputTextColor,
         width: `${inputWidth + scrolbarWidth}px`,
         height:
-          (Math.floor((inputCharsArray.length + 1) / rowCharsNumber) + 1) *
+          (Math.floor(
+            (inputCharsArray.length + promptLength) / rowCharsNumber,
+          ) +
+            1) *
             lineHeight +
           inputPadding * 2,
         minHeight: '60px',
@@ -182,22 +195,19 @@ export default function TerminalInput({
         top={
           inputPadding +
           charHeight *
-            Math.floor(
-              (caretIndex + (theme.prepend?.length || 0)) / rowCharsNumber,
-            ) +
+            Math.floor((caretIndex + promptLength) / rowCharsNumber) +
           2
         }
         left={
           inputPadding +
-          charWidth *
-            ((caretIndex + (theme.prepend?.length || 0)) % rowCharsNumber)
+          charWidth * ((caretIndex + promptLength) % rowCharsNumber)
         }
         blink={isInputFocused}
         icon={theme.caretIcon}
         color={theme.caretColor}
       />
       <Box sx={{ maxWidth: `${inputWidth - inputPadding * 2}px` }}>
-        {theme.prepend + inputCharsArray.join('')}
+        {prompt + inputCharsArray.join('')}
       </Box>
     </Box>
   )
