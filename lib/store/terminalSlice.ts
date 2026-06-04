@@ -18,7 +18,7 @@ export interface TerminalTheme {
   caretBlinkSpeed?: number
   prepend?: string
 }
-interface TerminalState {
+export interface TerminalState {
   theme: TerminalTheme
   diag: boolean
 }
@@ -52,17 +52,21 @@ const initialState: TerminalState = {
   diag: false,
 }
 
+export const STORAGE_KEY = 'terminal-storage'
+
 export const createTerminalSlice: StateCreator<TerminalSlice> = (set) => ({
   terminal: {
     ...initialState,
     setState: (props) => {
-      set(({ terminal }) => ({
-        terminal: {
+      set(({ terminal }) => {
+        const newState = {
           ...terminal,
-          ...initialState,
           ...props,
-        },
-      }))
+        }
+        const { theme, diag } = newState
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ theme, diag }))
+        return { terminal: newState }
+      })
     },
   },
 })

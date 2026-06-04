@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react'
 import TerminalInput from './TerminalInput'
 import TerminalLog from './TerminalLog'
 import { useStore } from '@/provider/storeProvider'
-import { selectTerminal } from '@/lib/store/terminalSlice'
+import {
+  selectTerminal,
+  STORAGE_KEY,
+  TerminalState,
+} from '@/lib/store/terminalSlice'
 import { parser } from '@/lib/terminal/parser'
 import DiagModal from '../diag/DiagModal'
 import { TerminalLine } from '@/lib/terminal/types'
@@ -12,8 +16,21 @@ import { selectMachine } from '@/lib/store/machineSlice'
 
 export default function Terminal() {
   const [logs, setLogs] = useState<(string | TerminalLine)[]>([])
-  useEffect(() => {}, [logs])
-  const { theme, diag } = useStore(selectTerminal)
+  const [isReady, setIsReady] = useState(false)
+  const loadPersistedState = (): Partial<TerminalState> => {
+    if (typeof window === 'undefined') return {}
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      return saved ? JSON.parse(saved) : {}
+    } catch (e) {
+      return {}
+    }
+  }
+  useEffect(() => {
+    setTheme(loadPersistedState())
+    setIsReady(true)
+  }, [])
+  const { theme, diag, setState: setTheme } = useStore(selectTerminal)
   const terminal = useStore(selectTerminal)
   const machine = useStore(selectMachine)
   const prompt =
@@ -25,6 +42,9 @@ export default function Terminal() {
     if (res) setLogs([...logs, textWithPrepend, ...res])
     else setLogs([...logs, textWithPrepend])
   }
+
+  if (!isReady) return null
+
   return (
     <Box
       sx={{
