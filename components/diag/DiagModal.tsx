@@ -28,6 +28,7 @@ export default function DiagModal() {
       <Stack sx={{ filter: 'invert()' }}>
         <ListItem>system state: {state}</ListItem>
         <ListItem>active command: {activeCommand}</ListItem>
+        <ListItem>theme name: {theme.name}</ListItem>
       </Stack>
     </Box>
   )

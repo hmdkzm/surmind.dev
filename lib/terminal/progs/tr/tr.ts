@@ -1,43 +1,46 @@
-import { TerminalSlice } from '@/lib/store/terminalSlice'
 import { commands } from './commands'
 import { theme } from './theme'
+import { CommandHandler } from '../../parser'
+import { TerminalLine } from '../../types'
 
-export const tr = (args: string[], terminal: TerminalSlice['terminal']) => {
+export const tr: CommandHandler = (args: string[], terminal, machine) => {
+  if (!args.length) {
+    machine.setState({ state: 'run', activeCommand: 'tr' })
+    return [[{ text: 'tr > ', color: 'gray' }]]
+  }
+
   const [subCommand, property, value] = args
-  if (subCommand === 'set') {
-    if (commands.set[property]) {
+
+  const trCommands: { [index: string]: () => string[] | TerminalLine[] } = {
+    set: () => {
+      if (commands.set[property]) {
+        terminal.setState({
+          theme: { ...terminal.theme, [commands.set[property]]: value },
+        })
+        return ['set']
+      }
+      return ['type tr help', 'Invalid Property']
+    },
+    theme: () => {
+      if (!theme[property]) {
+        return [[{ text: 'Invalid Theme Name', color: 'red' }]]
+      }
       terminal.setState({
-        theme: { ...terminal.theme, [commands.set[property]]: value },
+        theme: { ...terminal.theme, ...theme[property] },
       })
-      return ['set']
-    }
-  }
-  if (subCommand === 'theme') {
-    console.log(theme[property])
-    terminal.setState({
-      theme: { ...terminal.theme, ...theme[property] },
-    })
-    return ['theme set']
-  }
-  if (subCommand === 'diag') {
-    if (property === 'on') {
-      terminal.setState({
-        theme: { ...terminal.theme },
-        diag: true,
-      })
-      return ['diag activated']
-    }
-    if (property === 'off') {
-      terminal.setState({
-        theme: { ...terminal.theme },
-        diag: false,
-      })
-      return ['diag deactivated']
-    }
-    return ['type tr help', 'Invalid Params']
-  }
-  if (subCommand === 'help') {
-    const helpOutput = [
+      return [[{ text: 'Theme Applied', color: 'green' }]]
+    },
+    diag: () => {
+      if (property === 'on' || property === 'off') {
+        terminal.setState({
+          theme: { ...terminal.theme },
+          diag: property === 'on',
+        })
+        return [`diag ${property === 'on' ? 'activated' : 'deactivated'}`]
+      }
+      return ['type tr help', 'Invalid Params']
+    },
+    help: () => [
       'Usage: tr [command] [property] [value]',
       '',
       'Commands:',
@@ -52,8 +55,13 @@ export const tr = (args: string[], terminal: TerminalSlice['terminal']) => {
       '',
       'Available Themes:',
       `  •${Object.keys(theme).join(' •')}`,
-    ]
-    return helpOutput
+    ],
+    exit: () => {
+      machine.setState({ state: 'idle', activeCommand: '' })
+      return []
+    },
   }
-  return ['type tr help', 'Invalid Params']
+
+  if (!trCommands[subCommand]) return ['type tr help', 'Invalid Params']
+  else return trCommands[subCommand]()
 }
