@@ -18,23 +18,59 @@ export const surmind: CommandHandler = (args: string[], terminal, machine) => {
       if (machine.state === 'idle')
         machine.setState({ state: 'run', activeCommand: 'surmind' })
       if (!machine.memory.cmd) machine.setMemory('cmd', 'chat')
-      const response = [
-        'Well... This is not ready yet. Please wait for a moment :)',
+      const response: TerminalLine[] = [
+        [
+          {
+            text: 'Well... This is not ready yet. Please wait for a moment :)',
+            color: 'yellow',
+          },
+        ],
       ]
       return response
     },
     help: () => [
-      '    chat: start chat with surmind. (Not Yet)',
-      '    about: something about surmind',
-      '    links: show surmind links and socials',
-      '    resume: show SURMIND resume',
-      '    help: show commands help',
+      [
+        { text: 'Usage: ', color: 'gray' },
+        { text: 'surmind [command]', color: 'cyan' },
+      ],
+      [],
+      [{ text: 'Commands:', color: 'pink', bold: true }],
+      [
+        { text: '  chat    ', color: 'green' },
+        { text: '- Start chat with surmind (Not Yet)', color: 'gray' },
+      ],
+      [
+        { text: '  about   ', color: 'green' },
+        { text: '- Something about surmind', color: 'gray' },
+      ],
+      [
+        { text: '  links   ', color: 'green' },
+        { text: '- Show surmind links and socials', color: 'gray' },
+      ],
+      [
+        { text: '  resume  ', color: 'green' },
+        { text: '- Show SURMIND resume', color: 'gray' },
+      ],
+      [
+        { text: '  help    ', color: 'green' },
+        { text: '- Show commands help', color: 'gray' },
+      ],
+      [
+        { text: '  exit    ', color: 'green' },
+        { text: '- Exit surmind program', color: 'gray' },
+      ],
     ],
     about: () => [
-      'Surmind is a solution for your frustration',
-      'Surmind is redemtion',
-      'Surmind is salvation',
-      'Join surmind, surmind will join you',
+      [{ text: 'Surmind is a solution for your frustration', color: 'white' }],
+      [{ text: 'Surmind is redemtion', color: 'white' }],
+      [{ text: 'Surmind is salvation', color: 'white' }],
+      [
+        {
+          text: 'Join surmind, surmind will join you',
+          color: 'pink',
+          bold: true,
+        },
+      ],
     ],
     links: () => surmindLinksBlock,
     resume: () => surmindTerminalResume,
@@ -44,7 +80,11 @@ export const surmind: CommandHandler = (args: string[], terminal, machine) => {
     },
   }
   if (!machine.memory.cmd && !commands[subCommand])
-    return ['type surmind help', 'Invalid Params']
+    return [
+      [{ text: 'Invalid Params', color: 'red' }],
+      [{ text: 'Usage: surmind [command]', color: 'gray' }],
+      [{ text: 'Type "surmind help" for more information', color: 'gray' }],
+    ]
   else
     return commands[
       !!machine.memory.cmd ? `${machine.memory.cmd}` : subCommand
