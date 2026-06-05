@@ -4,10 +4,12 @@ type Command = string
 interface MachineState {
   state: SystemState
   activeCommand: Command
+  memory: Record<string, unknown>
 }
 
 interface MachineActions {
   setState: (props: Partial<MachineState>) => void
+  setMemory: (programId: string, data: unknown) => void
 }
 
 export interface MachineSlice {
@@ -17,6 +19,7 @@ export interface MachineSlice {
 const initialState: MachineState = {
   state: 'idle',
   activeCommand: '',
+  memory: {},
 }
 
 export const createMachineSlice: StateCreator<MachineSlice> = (set) => ({
@@ -28,6 +31,17 @@ export const createMachineSlice: StateCreator<MachineSlice> = (set) => ({
           ...machine,
           ...initialState,
           ...props,
+        },
+      }))
+    },
+    setMemory: (programId, data) => {
+      set(({ machine }) => ({
+        machine: {
+          ...machine,
+          memory: {
+            ...machine.memory,
+            [programId]: data,
+          },
         },
       }))
     },
