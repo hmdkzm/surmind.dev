@@ -10,7 +10,19 @@ export const surmind: CommandHandler = (args: string[], terminal, machine) => {
   }
   const [subCommand, property, value] = args
   const commands: { [index: string]: () => string[] | TerminalLine[] } = {
-    chat: () => ['Well... This is not ready yet. Please wait for a moment :)'],
+    chat: () => {
+      if (subCommand === 'exit') {
+        machine.setMemory('cmd', undefined)
+        return [[{ text: 'chat terminated', color: 'gray' }]]
+      }
+      if (machine.state === 'idle')
+        machine.setState({ state: 'run', activeCommand: 'surmind' })
+      if (!machine.memory.cmd) machine.setMemory('cmd', 'chat')
+      const response = [
+        'Well... This is not ready yet. Please wait for a moment :)',
+      ]
+      return response
+    },
     help: () => [
       '    chat: start chat with surmind. (Not Yet)',
       '    about: something about surmind',
@@ -31,6 +43,10 @@ export const surmind: CommandHandler = (args: string[], terminal, machine) => {
       return []
     },
   }
-  if (!commands[subCommand]) return ['type surmind help', 'Invalid Params']
-  else return commands[subCommand]()
+  if (!machine.memory.cmd && !commands[subCommand])
+    return ['type surmind help', 'Invalid Params']
+  else
+    return commands[
+      !!machine.memory.cmd ? `${machine.memory.cmd}` : subCommand
+    ]()
 }

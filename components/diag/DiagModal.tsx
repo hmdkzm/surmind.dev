@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack'
 
 export default function DiagModal() {
   const { theme } = useStore(selectTerminal)
-  const { state, activeCommand } = useStore(selectMachine)
+  const { state, activeCommand, memory } = useStore(selectMachine)
   return (
     <Box
       sx={{
@@ -28,6 +28,7 @@ export default function DiagModal() {
       <Stack sx={{ filter: 'invert()' }}>
         <ListItem>system state: {state}</ListItem>
         <ListItem>active command: {activeCommand}</ListItem>
+        <ListItem>memory: {JSON.stringify(memory)}</ListItem>
         <ListItem>theme name: {theme.name}</ListItem>
       </Stack>
     </Box>
