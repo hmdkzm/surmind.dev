@@ -1,3 +1,4 @@
+import { getAnswers } from '@/lib/chatEngine/engine'
 import { CommandHandler } from '../../parser'
 import { TerminalLine } from '../../types'
 import { surmindLinksBlock } from './linksText'
@@ -9,6 +10,7 @@ export const surmind: CommandHandler = (args: string[], terminal, machine) => {
     return [[{ text: 'surmind > ', color: 'gray' }]]
   }
   const [subCommand, property, value] = args
+  const inputQuery = args.join(' ')
   const commands: { [index: string]: () => string[] | TerminalLine[] } = {
     chat: () => {
       if (subCommand === 'exit') {
@@ -17,15 +19,17 @@ export const surmind: CommandHandler = (args: string[], terminal, machine) => {
       }
       if (machine.state === 'idle')
         machine.setState({ state: 'run', activeCommand: 'surmind' })
-      if (!machine.memory.cmd) machine.setMemory('cmd', 'chat')
-      const response: TerminalLine[] = [
-        [
-          {
-            text: 'Well... This is not ready yet. Please wait for a moment :)',
-            color: 'yellow',
-          },
-        ],
-      ]
+      if (!machine.memory.cmd) {
+        machine.setMemory('cmd', 'chat')
+        return [[{ text: 'surmind > ', color: 'gray' }]]
+      }
+      const response: TerminalLine[] | string[] = getAnswers(
+        inputQuery,
+        '',
+        { feel: 0, temper: 0, mood: 'talky' },
+        ['plot one', 'scene one', 'greeting'],
+        'free',
+      ).mem.answers
       return response
     },
     help: () => [
