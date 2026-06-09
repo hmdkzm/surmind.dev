@@ -16,16 +16,16 @@ export default function DiagModal() {
         bottom: '50px',
         width: '300px',
         height: '350px',
-        color: theme.logTextColor,
-        backgroundColor: theme.inputBackgroundColor,
-        filter: 'invert()',
+        color: 'rgba(255, 255, 255, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         border: '1px solid',
-        borderColor: 'white',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.5)',
+        borderColor: 'rgba(255, 255, 255, 0.5)',
         borderRadius: '5px',
         padding: '0px',
       }}
     >
-      <Stack sx={{ filter: 'invert()' }}>
+      <Stack>
         <ListItem>system state: {state}</ListItem>
         <ListItem>active command: {activeCommand}</ListItem>
         <ListItem>memory: {JSON.stringify(memory)}</ListItem>
