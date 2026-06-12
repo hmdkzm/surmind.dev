@@ -28,19 +28,28 @@ const weighing = (
 ) => {
   const matchWeigh = keys.map((key) => {
     const keys = keywords[key].map((keyword) => {
-      return keyword.split(' ').reduce((a, b) => {
+      const keywordArray = keyword.split(' ')
+      const matchedNumber = keywordArray.reduce((a, b) => {
         if (words.includes(b)) return a + 1
         return a
       }, 0)
+      return { matchedNumber, length: keywordArray.length }
     })
     return keys
   })
   const maxWeight = matchWeigh.map((w) =>
-    w.reduce((a, b) => (b > a ? b : a), 0),
+    w.reduce((a, b) => (b.matchedNumber > a.matchedNumber ? b : a), {
+      matchedNumber: 0,
+      length,
+    }),
   )
   const maxWeightIndex = maxWeight.reduce(
-    (a, b, i) => (b > a.v ? (a = { v: b, i: i }) : a),
-    { v: 0, i: 0 },
+    (a, b, i) =>
+      b.matchedNumber > a.v ||
+      (b.matchedNumber === a.v && b.length - b.matchedNumber < a.l - a.v)
+        ? (a = { v: b.matchedNumber, l: b.length, i: i })
+        : a,
+    { v: 0, l: 0, i: 0 },
   )
   const matchedKey = maxWeightIndex.v > 0 ? keys[maxWeightIndex.i] : undefined
   console.log(matchWeigh)
