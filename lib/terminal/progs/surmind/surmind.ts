@@ -21,7 +21,38 @@ export const surmind: CommandHandler = (args: string[], terminal, machine) => {
         machine.setState({ state: 'run', activeCommand: 'surmind' })
       if (!machine.memory.cmd) {
         machine.setMemory('cmd', 'chat')
-        return [[{ text: 'surmind > ', color: 'gray' }]]
+        return [
+          [
+            {
+              text: 'surmind > You entered chat mode',
+              color: 'gray',
+            },
+          ],
+          [
+            {
+              text: "It's still a work in progress",
+              color: 'red',
+            },
+          ],
+          [
+            {
+              text: 'the output maybe inaccurate',
+              color: 'red',
+            },
+          ],
+          [
+            {
+              text: 'type "exit" to exit chat mode',
+              color: 'gray',
+            },
+          ],
+          [
+            {
+              text: "ask anything, if I know I'll tell you ;)",
+              color: 'gray',
+            },
+          ],
+        ]
       }
       const response: TerminalLine[] | string[] = getAnswers(
         inputQuery,
